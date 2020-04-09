@@ -1,6 +1,5 @@
 from flask import Flask, url_for, redirect, render_template, request, session, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
-from forms import adminForm
 from models import db, Admin
 from werkzeug import generate_password_hash, check_password_hash
 
