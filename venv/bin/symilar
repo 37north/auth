@@ -1,0 +1,8 @@
+#!/media/north/D0CAAF7ACAAF5C0A/IT/parsan_github/auth_ReST/venv/bin/python
+# -*- coding: utf-8 -*-
+import re
+import sys
+from pylint import run_symilar
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(run_symilar())
