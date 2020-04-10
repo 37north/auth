@@ -6,6 +6,7 @@ from models import db, Admin
 
 
 app = Flask(__name__, static_url_path='/static')
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/auth'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
@@ -29,13 +30,13 @@ def admin_login():
     '''
     Login with your credentials.
     '''
-    auth = request.authorization
-    user = Admin.query.filter_by(username=auth.username).first()
+    data = request.authorization
+    user = Admin.query.filter_by(username=data.username).first()
 
-    if not auth or not auth.username or not auth.password or not user:
-        return make_response('The user or password is wrongg!')
-    elif check_password_hash(user.pwdhash, auth.password):
-        return make_response('Hi ' + auth.username)
+    if not auth or not data.username or not data.password or not user:
+        return make_response('The user or password is wrong!')
+    elif check_password_hash(user.pwdhash, data.password):
+        return make_response('Hi ' + data.username)
     else:
         return make_response('Password is wrong for ' + user.username)
 
@@ -44,8 +45,8 @@ def update_pass(uid):
     '''
     You may want to change your password.
     '''
-    new_pass = request.get_json()
-    hash_new_pwd = generate_password_hash(new_pass['pwdhash'])
+    data = request.get_json()
+    hash_new_pwd = generate_password_hash(data['pwdhash'])
     user = Admin.query.filter_by(uid=uid).first()
     user.pwdhash = hash_new_pwd
     db.session.commit()
